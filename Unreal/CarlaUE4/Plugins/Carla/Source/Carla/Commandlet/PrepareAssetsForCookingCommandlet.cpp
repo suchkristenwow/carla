@@ -14,6 +14,7 @@
 #include "Materials/MaterialInstanceConstant.h"
 #include "Carla/MapGen/LargeMapManager.h"
 
+
 static bool ValidateStaticMesh(UStaticMesh *Mesh)
 {
   const FString AssetName = Mesh->GetName();
@@ -374,9 +375,14 @@ FString UPrepareAssetsForCookingCommandlet::GetFirstPackagePath(const FString &P
 {
   // Get all Package names
   TArray<FString> PackageList;
+  //UE_LOG(LogTemp, Warning, TEXT("directory were looking at is %s"), FPaths::ProjectContentDir());
+  
+  cout <<"........................................this is the directory we're looking at "<< PackageName;
+
   IFileManager::Get().FindFilesRecursive(PackageList, *(FPaths::ProjectContentDir()),
       *(PackageName + TEXT(".Package.json")), true, false, false);
-
+      
+ 
   if (PackageList.Num() == 0)
   {
     UE_LOG(LogTemp, Error, TEXT("Package json file not found."));
@@ -530,6 +536,7 @@ void UPrepareAssetsForCookingCommandlet::GeneratePackagePathFile(const FString &
 {
   FString SaveDirectory = FPaths::ProjectContentDir();
   FString FileName = FString("PackagePath.txt");
+  cout << "this is package name in UPrepareAssetsForCookingCommandlet: "<< PackageName;
   FString PackageJsonFilePath = GetFirstPackagePath(PackageName);
   SaveStringTextToFile(SaveDirectory, FileName, PackageJsonFilePath, true);
 }
